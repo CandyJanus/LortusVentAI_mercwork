@@ -1,0 +1,2 @@
+name,id,tier,rarity,tech/manufacturer,tags,uiTags,base value,unlocked,hidden,hiddenEverywhere,cost_frigate,cost_dest,cost_cruiser,cost_capital,script,desc,short,sprite
+Lortus Vent Hullmod,lortus_vent_hullmod,0,,Outsourced By Lortus,"no_drop, no_drop_salvage, ",Engines,5000,TRUE,,,0,0,0,0,data.hullmods.lortus_vent_hullmod,"Placeholder description. This hullmod enormously increases speed while venting. Ship AI may decide to vent aggressively and strafe towards the target, Ludd and the AI gods willing. No graphics for now, Lortus will presumably do that himself.",,
