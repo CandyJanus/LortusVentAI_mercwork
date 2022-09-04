@@ -1,10 +1,9 @@
-package data.ai
-
-import com.dp.advancedgunnerycontrol.weaponais.shipais.ShipCommandGenerator
-import com.dp.advancedgunnerycontrol.weaponais.shipais.ShipCommandWrapper
 
 package com.dp.advancedgunnerycontrol.weaponais.shipais
 
+
+import com.dp.advancedgunnerycontrol.weaponais.shipais.ShipCommandGenerator
+import com.dp.advancedgunnerycontrol.weaponais.shipais.ShipCommandWrapper
 import com.dp.advancedgunnerycontrol.weaponais.getAverageArmor
 import com.dp.advancedgunnerycontrol.weaponais.getMaxArmor
 import com.fs.starfarer.api.combat.DamageType
