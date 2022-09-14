@@ -30,7 +30,7 @@ open class strafeWhileVentingShipAI(protected val baseAI: ShipAIPlugin, protecte
         ship.shipAI = this
     }
 
-    protected fun advanceImpl(p0: Float){
+    protected fun advanceImpl(p0: Float) {
         commanders.forEach { cmdr ->
             cmdr.generateCommands().forEach {
                 ship.giveCommand(it.command, it.position, it.index)
@@ -41,7 +41,7 @@ open class strafeWhileVentingShipAI(protected val baseAI: ShipAIPlugin, protecte
                 ship.blockCommandForOneFrame(it)
             }
         }
-        if(commanders.any { it.shouldReevaluate() }) forceCircumstanceEvaluation()
+        if (commanders.any { it.shouldReevaluate() }) forceCircumstanceEvaluation()
     }
 
     override fun needsRefit(): Boolean {
@@ -50,6 +50,7 @@ open class strafeWhileVentingShipAI(protected val baseAI: ShipAIPlugin, protecte
         ship.shipAI = this
         return result
     }
+
     override fun getAIFlags(): ShipwideAIFlags? = baseAI.aiFlags
 
     override fun cancelCurrentManeuver() {
@@ -59,3 +60,4 @@ open class strafeWhileVentingShipAI(protected val baseAI: ShipAIPlugin, protecte
     }
 
     override fun getConfig(): ShipAIConfig? = baseAI.config
+}

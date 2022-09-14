@@ -11,7 +11,7 @@ import com.fs.starfarer.api.util.Misc
 class lortus_vent_hullmod : BaseHullMod() {
 
 
-    var maxSpeedBonusWhileVenting: Map<HullSize, Float> = mapOf(
+    var maxSpeedBonusWhilePseudoVenting: Map<HullSize, Float> = mapOf(
         HullSize.DEFAULT to 0.0F,
         HullSize.FIGHTER to 200.0F,
         HullSize.FRIGATE to 200.0F,
@@ -64,7 +64,6 @@ class lortus_vent_hullmod : BaseHullMod() {
     //note: TODO reference damen's technique for modifying each ship individually
 
 
-
     override fun advanceInCombat(ship: ShipAPI, amount: Float) {
 
         if (!ship.isAlive) {
@@ -72,8 +71,20 @@ class lortus_vent_hullmod : BaseHullMod() {
         }
 
         if(ship.fluxTracker.isVenting){
-            ship.mutableStats.maxSpeed.modifyFlat(ship.id, accelBoostMap[ship.hullSize]!! - zeroFluxBoostNotVentingBonus)
+            val timeForVent =ship.fluxTracker.getTimeToVent();
+            ship.setCustomData("pseudoVentTimeLeft", timeForVent);
+            //ship.mutableStats.maxSpeed.modifyFlat(ship.id, accelBoostMap[ship.hullSize]!! - zeroFluxBoostNotVentingBonus)
+
         }
+        val pseudoVentTimeLeft : Float = ship.getCustomData().get("ship.getCustomData()") as Float;
+        if(pseudoVentTimeLeft>0){
+
+            //note: change stats&disable weapons each frame as if the ship were really venting.
+
+            ship.fluxTracker.decreaseFlux((ship.mutableStats.fluxDissipation.modifiedValue)*amount);
+            ship.setCustomData("pseudoVentTimeLeft", pseudoVentTimeLeft-amount);
+        }
+
     }
 //-zeroFluxBoostNotVentingBonus
 
