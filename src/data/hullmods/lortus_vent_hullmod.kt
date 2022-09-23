@@ -10,7 +10,6 @@ import com.fs.starfarer.api.util.Misc
 
 class lortus_vent_hullmod : BaseHullMod() {
 
-
     var maxSpeedBonusWhilePseudoVenting: Map<HullSize, Float> = mapOf(
         HullSize.DEFAULT to 0.0F,
         HullSize.FIGHTER to 200.0F,
@@ -33,9 +32,7 @@ class lortus_vent_hullmod : BaseHullMod() {
 
     var zeroFluxBoostNotVentingBonus = 50F
 
-
     override fun applyEffectsBeforeShipCreation(hullSize: HullSize, stats: MutableShipStatsAPI, id: String) {
-
         stats.acceleration.modifyMult(
             id,
             accelBoostMap!![hullSize]!!
@@ -53,6 +50,7 @@ class lortus_vent_hullmod : BaseHullMod() {
             zeroFluxBoostNotVentingBonus
         )
     }
+
     override fun isApplicableToShip(ship: ShipAPI): Boolean {
         return true
     }
@@ -61,8 +59,7 @@ class lortus_vent_hullmod : BaseHullMod() {
         return null
     }
 
-    //note: TODO reference damen's technique for modifying each ship individually
-
+    //TODO feactor some of this shit into a separate "jank towards enemy ship" AI module"
 
     override fun advanceInCombat(ship: ShipAPI, amount: Float) {
 
@@ -70,11 +67,13 @@ class lortus_vent_hullmod : BaseHullMod() {
             return
         }
 
+        //TODO increase odds of venting depending on ship personality
+
         if(ship.fluxTracker.isVenting){
             val timeForVent =ship.fluxTracker.getTimeToVent();
             ship.setCustomData("pseudoVentTimeLeft", timeForVent);
             //ship.mutableStats.maxSpeed.modifyFlat(ship.id, accelBoostMap[ship.hullSize]!! - zeroFluxBoostNotVentingBonus)
-
+            ship.fluxTracker.stopVenting();
         }
         val pseudoVentTimeLeft : Float = ship.getCustomData().get("ship.getCustomData()") as Float;
         if(pseudoVentTimeLeft>0){
@@ -83,8 +82,19 @@ class lortus_vent_hullmod : BaseHullMod() {
 
             ship.fluxTracker.decreaseFlux((ship.mutableStats.fluxDissipation.modifiedValue)*amount);
             ship.setCustomData("pseudoVentTimeLeft", pseudoVentTimeLeft-amount);
+            //TODO disable weapons
         }
 
+        //note: if enemy ship is in range, start janking towards them
+        if(ship.areSignificantEnemiesInRange()){
+            //TODO: randomly try to jank diagonally left towards or diagonally right towards
+
+
+
+            //TODO: some kind of detection for if a collision is immminent and need to try something else
+
+            //note: I guess that breaks down into turn left then accelerate or turn right and then accelerate, or strafe left or right, or accelerate backwards
+        }
     }
 //-zeroFluxBoostNotVentingBonus
 
@@ -111,8 +121,6 @@ class lortus_vent_hullmod : BaseHullMod() {
         val l = Misc.getDesignTypeColor("Low Tech")
         val md = Misc.getDesignTypeColor("Midline")
         val h = Misc.getDesignTypeColor("High Tech")
-        val p = Misc.getDesignTypeColor("seven phase")
-        val w = Misc.getDesignTypeColor("seven white")
         val prt = Misc.getDesignTypeColor("Pirate")
         val bad = Misc.getNegativeHighlightColor()
         var label = tooltip.addPara(
@@ -132,4 +140,6 @@ class lortus_vent_hullmod : BaseHullMod() {
         label.setHighlightColors(b)
     }
 }
+
+
 
